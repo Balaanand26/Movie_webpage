@@ -1,9 +1,18 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const WatchListContext = createContext();
 
 export const WatchListProvider = ({ children }) => {
   const [watchList, setWatchList] = useState([]);
+  const [genreList, setGenreList] = useState([]);
+
+    useEffect(() => {
+      let url = `https://api.themoviedb.org/3/genre/movie/list?api_key=c92299673508f95ae5e979fe7a194ac8`;
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => setGenreList(data.genres || []));
+    }, []);
 
   const toggleWatchList = (movie) => {
     const index = watchList.findIndex((item) => item.id === movie.id);
@@ -18,7 +27,7 @@ export const WatchListProvider = ({ children }) => {
   };
 
   return (
-    <WatchListContext.Provider value={{ watchList, toggleWatchList }}>
+    <WatchListContext.Provider value={{ watchList, toggleWatchList, genreList }}>
       {children}
     </WatchListContext.Provider>
   );

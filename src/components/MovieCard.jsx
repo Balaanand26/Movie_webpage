@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { WatchListContext } from "../context/WatchListContext";
 
 const MovieCard = ({ movie }) => {
   const {toggleWatchList, watchList} = useContext(WatchListContext);

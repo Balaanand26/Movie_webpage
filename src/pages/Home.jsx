@@ -1,78 +1,23 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 
-// const movies = [
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-//   {
-//     poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
-//     title: "Wonder Women 1984",
-//     release_date: "2020-12-16",
-//   },
-// ];
 
 const Home = () => {
+  const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
 
-    const [movies, setMovies] = useState([]);
-    const [page, setPage] = useState(1);
-    const [search, setSearch] = useState("");
+  useEffect(() => {
+    let url = `https://api.themoviedb.org/3/movie/popular?page=${page}&api_key=c92299673508f95ae5e979fe7a194ac8`;
 
-    useEffect(() => {
-      let url = `https://api.themoviedb.org/3/movie/popular?page=${page}&api_key=c92299673508f95ae5e979fe7a194ac8`
+    if (search) {
+      url = `https://api.themoviedb.org/3/search/movie?query=${search}&page=${page}&api_key=c92299673508f95ae5e979fe7a194ac8`;
+    }
 
-      if (search) {
-
-        url = `https://api.themoviedb.org/3/search/movie?query=${search}&api_key=c92299673508f95ae5e979fe7a194ac8`  
-
-      }
-        fetch(url)
-        .then((response) => response.json())
-        .then((data) => setMovies(data.results))      
-    }, [page, search]);
-
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setMovies(data.results));
+  }, [page, search]);
 
   return (
     <div className="p-4 pt-16">
@@ -90,12 +35,18 @@ const Home = () => {
       </div>
       <div className="pagination-container flex justify-between mt-8">
         <button
-        disabled={page === 1}
-        className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 transition duration-300" onClick={() => {setPage(prev => prev - 1 )}}>
+          disabled={page === 1}
+          className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
+          onClick={() => {
+            setPage((prev) => Math.max(prev - 1, 1));}}
+        >
           Previous
         </button>
 
-        <button className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 transition duration-300" onClick={() => {setPage(prev => prev + 1 )}}>
+        <button
+          className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
+          onClick={() => setPage((prev) => prev + 1)}
+        >
           Next
         </button>
       </div>
