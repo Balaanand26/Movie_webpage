@@ -24,16 +24,16 @@ const Home = () => {
       <input
         type="text"
         placeholder="Search Movies..."
-        className="p-2 w-3/4 md:w-1/2 border rounded border-gray-700 bg-gray-900 bg-opacity-60 backdrop-blur-md text-white fixed top-16 left-1/2 transform -translate-x-1/2 z-10"
+        className="p-2 w-3/4 md:w-1/2 border rounded-full border-gray-700 bg-gray-900 bg-opacity-60 backdrop-blur-md text-white fixed top-16 left-1/2 transform -translate-x-1/2 z-10"
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="movies-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-16">
+      <div className="movies-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-16 p-8">
         {movies.map((movie) => {
           return <MovieCard key={movie.id} movie={movie} />;
         })}
       </div>
-      <div className="pagination-container flex justify-between mt-8">
+      <div className="pagination-container flex justify-between mt-8 px-10">
         <button
           disabled={page === 1}
           className="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
